@@ -1,0 +1,5 @@
+<div>
+	<h5><%= Item.find(cart_item.item_id).title %></h5>
+	<p><%= cart_item.quantity %> </p>
+	<p> <%= cart_item.quantity * cart_item.price %> €</p>
+</div>

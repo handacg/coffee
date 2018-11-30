@@ -1,0 +1,189 @@
+<!-- header-container start -->
+      <div class="header-container">
+        <!-- header start -->
+        <!-- classes:  -->
+        <!-- "fixed": enables fixed navigation mode (sticky menu) e.g. class="header fixed clearfix" -->
+        <!-- "fixed-desktop": enables fixed navigation only for desktop devices e.g. class="header fixed fixed-desktop clearfix" -->
+        <!-- "fixed-all": enables fixed navigation only for all devices desktop and mobile e.g. class="header fixed fixed-desktop clearfix" -->
+        <!-- "dark": dark version of header e.g. class="header dark clearfix" -->
+        <!-- "centered": mandatory class for the centered logo layout -->
+        <!-- ================ -->
+        <header class="header fixed fixed-desktop clearfix">
+          <div class="container-fluid">
+            <div class="row">
+
+              <div class="col-md-auto hidden-md-down pl-3">
+                <!-- header-first start -->
+                <!-- ================ -->
+                <div class="header-first clearfix">
+                  <!-- logo -->
+                  <div id="logo" class="logo">
+                    <%= link_to root_path do %>
+                      <img id="logo_img" src="../../assets/images/kraft.png" alt="kraft">
+                    <% end %>
+                  </div>
+                </div>
+                <!-- header-first end -->
+              </div>
+
+
+              <div class="col-lg-8 ml-auto">
+          
+                <!-- header-second start -->
+                <!-- ================ -->
+                <div class="header-second clearfix">
+                  
+                <!-- main-navigation start -->
+                <!-- classes: -->
+                <!-- "onclick": Makes the dropdowns open on click, this the default bootstrap behavior e.g. class="main-navigation onclick" -->
+                <!-- "animated": Enables animations on dropdowns opening e.g. class="main-navigation animated" -->
+                <!-- ================ -->
+                <div class="main-navigation main-navigation--mega-menu  animated">
+                  <nav class="navbar navbar-expand-lg navbar-light p-0">
+
+
+                    <div class="navbar-brand clearfix hidden-lg-up">
+                      <!-- logo -->
+                      <div id="logo-mobile" class="logo">
+                        <%= link_to root_path do %>
+                          <img id="logo_img" src="../../assets/images/kraft.png" alt="kraft">
+                        <% end %>
+                      </div>
+                    </div>
+                    
+                    <!-- header dropdown buttons -->
+                    <div class="header-dropdown-buttons hidden-lg-up p-0 ml-auto mr-3">
+
+
+                      <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle dropdown-toggle--no-caret" id="header-drop-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-right dropdown-animation" aria-labelledby="header-drop-3">
+                          <% unless artisan_signed_in? %>
+                          <li><%= link_to 'Login', new_artisan_session_path, class: "nav-link" %></li>
+                          <li><%= link_to 'Signup', new_artisan_registration_path, class: "nav-link" %></li>
+                          <% else %>
+                          <li><%= link_to 'My profile', artisan_path(current_artisan.id), class: "nav-link"%></li>
+                          <li><%= link_to 'Logout', destroy_artisan_session_path, class: "nav-link", method: :delete %></li>
+                          <% end %>
+                        </ul>
+                      </div>
+
+
+                      <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle dropdown-toggle--no-caret" id="header-drop-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-basket"></i><span class="cart-count default-bg"><%= current_cart_count %></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right cart dropdown-animation" aria-labelledby="header-drop-4">
+                          <li>
+                            <table class="table table-hover">
+                              <thead>
+                                <tr>
+                                  <th class="quantity">Qty</th>
+                                  <th class="product">Product</th>
+                                  <th class="amount">Subtotal</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% unless current_cart_count == 0 %>
+                                  <% current_cart_items.each do |item| %>
+                                  <tr>
+                                    <td class="quantity"> <%= item.quantity %> </td>
+                                    <td class="product"><a href="shop-product.html"><%= Item.find(item.item_id).title %></a></td>
+                                    <td class="amount"><%= item.price * item.quantity %> €</td>
+                                  </tr>
+                                  <% end %>
+                                <% end %> 
+                                <tr>
+                                  <td class="total-quantity" colspan="2">Total <%= current_cart_count %> Items</td>
+                                  <td class="total-amount"><%= current_cart_price %> €</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="panel-body text-right">
+                              <%= link_to 'Checkout', edit_cart_path(current_cart.id), class:"btn btn-outline-info btn-sm" %>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </nav>
+                </div>
+                <!-- main-navigation end -->
+                </div>
+                <!-- header-second end -->
+              </div>
+
+
+
+              <div class="col-auto hidden-md-down row">
+                <!-- header dropdown buttons -->
+
+                <% unless artisan_signed_in? %>
+
+                  <nav class="navbar navbar-expand-lg navbar-light p-0 ">
+                    <ul class="navbar-nav ml-xl-auto">
+                      <li><%= link_to 'Login', new_artisan_session_path, class: "nav-link" %></li>
+                      <li><%= link_to 'Signup', new_artisan_registration_path, class: "nav-link" %></li>
+                    </ul>
+                  </nav>
+
+                <% else %>
+
+                <div class="header-dropdown-buttons">
+                   <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle dropdown-toggle--no-caret" id="header-drop-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-animation" aria-labelledby="header-drop-3">
+                      <li><%= link_to 'My profile', artisan_path(current_artisan.id), class: "nav-link"%></li>
+                      <li><%= link_to 'Logout', destroy_artisan_session_path, class: "nav-link", method: :delete %></li>
+                    </ul> 
+                  </div>
+                </div>
+                <% end %>
+
+                <div class="header-dropdown-buttons">
+                  <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle dropdown-toggle--no-caret" id="header-drop-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-shopping-basket"></i><span class="cart-count default-bg"><%= current_cart_count %></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right cart dropdown-animation" aria-labelledby="header-drop-4">
+                      <li>
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th class="quantity">Qty</th>
+                              <th class="product">Product</th>
+                              <th class="amount">Subtotal</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% unless current_cart_count == 0 %>
+                              <% current_cart_items.each do |item| %>
+                              <tr>
+                                <td class="quantity"> <%= item.quantity %> </td>
+                                <td class="product"><%= link_to Item.find(item.item_id).title, item_path(item.item_id) %></a></td>
+                                <td class="amount"><%= item.price * item.quantity %> €</td>
+                              </tr>
+                              <% end %>
+                            <% end %>
+                            <tr>
+                              <td class="total-quantity" colspan="2">Total <%= current_cart_count %> Items</td>
+                              <td class="total-amount"><%= current_cart_price %> €</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="panel-body text-right">
+                          <%= link_to 'Checkout', edit_cart_path(current_cart.id), class:"btn btn-outline-info btn-sm" %>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+
+
+                <!-- header dropdown buttons end -->
+              </div>
+            </div>
+          </div>
+        </header>
+        <!-- header end -->
+      </div>
+<!-- header-container end -->
